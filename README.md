@@ -1,3 +1,3 @@
 # Kirep - Advanced GPS
 
-[This is](https://kirep-studios.gitbook.io/kirep-studios)
+Click [HERE](https://kirep-studios.gitbook.io/kirep-studios) to access the documentation.
