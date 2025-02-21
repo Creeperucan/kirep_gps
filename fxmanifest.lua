@@ -5,7 +5,7 @@ lua54 'on'
 name 'kirep-gps'
 author 'Creeperucan'
 description 'The most advanced GPS script! By Creeperucan :)'
-version '1.1.1'
+version '1.0.0'
 
 client_scripts {
   'client/main.lua',
