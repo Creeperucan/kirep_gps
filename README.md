@@ -44,8 +44,8 @@ Config = {
         URL = 'WEBHOOK_URL_HERE_REQUIRED',
         imageURL = 'IMAGE_URL_HERE_REQUIRED',
         serverName = 'Server Name',    -- Webhook Bot Name
-        enabled = false,                -- Set it to 'true' to activate the webhook.
-        noJobLog = false,               -- If set to 'true', a notification will be sent when people without the required profession use it.
+        enabled = false,               -- Set it to 'true' to activate the webhook.
+        noJobLog = false,              -- If set to 'true', a notification will be sent when people without the required profession use it.
 
         successColor = 47678,          -- Decimal Color (https://convertingcolors.com/hex-color-FFFFFF.html)
         deniedColor = 13703966,        -- Decimal Color (https://convertingcolors.com/hex-color-FFFFFF.html)
