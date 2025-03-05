@@ -68,7 +68,11 @@ function HasItem(itemName)
         end
 
     elseif QBCore then
-        return QBCore.Functions.HasItem(itemName)
+        if Config.General.inventory == 'ox' then
+            return exports.ox_inventory:Search('count', itemName) > 0
+        elseif Config.General.inventory == 'qb' then
+            return QBCore.Functions.HasItem(itemName)
+        end
     end
 
     return false

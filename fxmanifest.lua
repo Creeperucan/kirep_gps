@@ -5,14 +5,14 @@ lua54 'on'
 name 'kirep-gps'
 author 'Creeperucan'
 description 'The most advanced GPS script! By Creeperucan :)'
-version '1.0.0'
+version '1.0.1'
 
 client_scripts {
-  'client/main.lua',
+  'client/*',
   'functions.lua'
 }
 server_scripts {
-  'server/main.lua',
+  'server/*',
   'functions.lua'
 }
 
@@ -32,22 +32,8 @@ shared_scripts {
 files {
 
   -- HTML
-    'html/index.html',
-    'html/style.css',
-    'html/app.js',
+    'html/*',
 
     -- Language
-    'locales/az-AZ.lua',
-    'locales/tr-TR.lua',
-    'locales/en-US.lua',
-    'locales/it-IT.lua',
-    'locales/fr-FR.lua',
-    'locales/es-ES.lua',
-    'locales/el-GR.lua',
-    'locales/de-DE.lua',
-    'locales/ar-SA.lua',
-    'locales/nl-NL.lua',
-    'locales/pl-PL.lua',
-    'locales/th-TH.lua',
-    'locales/pt-PT.lua'
+    'locales/*'
 }

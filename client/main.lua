@@ -70,6 +70,8 @@ RegisterNUICallback('openGPS', function(data, cb)
             while true do
                 Citizen.Wait(time)
 
+                hasItem = HasItem(Config.General.itemName)
+
                 if GPSstatus == false then
                     break
                 elseif not hasItem then
