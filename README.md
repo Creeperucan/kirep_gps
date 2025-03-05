@@ -20,7 +20,9 @@ Config = {
         updateInterval = 500,           -- 1000 = 1 second (We do not recommend setting it to 0.)
         playerBlip = true,              -- If set to 'true', the player's own blip will be hidden.
         itemName = 'gps',               -- Item Name
+        inventory = 'ox',               -- ox_inventory = ox, qb-inventory = qb
         lang = 'en-US',                 -- Language
+        debug = false,                  -- Debug Mode
     },
 
     Noification = {
@@ -42,8 +44,8 @@ Config = {
         URL = 'WEBHOOK_URL_HERE_REQUIRED',
         imageURL = 'IMAGE_URL_HERE_REQUIRED',
         serverName = 'Server Name',    -- Webhook Bot Name
-        enabled = false,               -- Set it to 'true' to activate the webhook.
-        noJobLog = false,              -- If set to 'true', a notification will be sent when people without the required profession use it.
+        enabled = false,                -- Set it to 'true' to activate the webhook.
+        noJobLog = false,               -- If set to 'true', a notification will be sent when people without the required profession use it.
 
         successColor = 47678,          -- Decimal Color (https://convertingcolors.com/hex-color-FFFFFF.html)
         deniedColor = 13703966,        -- Decimal Color (https://convertingcolors.com/hex-color-FFFFFF.html)
