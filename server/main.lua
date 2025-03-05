@@ -51,7 +51,7 @@ CreateUseableItem(Config.General.itemName, function(source)
 end)
 
 RegisterServerEvent('playerInfo')
-AddEventHandler('playerInfo', function(badgeNumber, vehicleClass, sirenOn, playerParachute, playerId, jobName)
+AddEventHandler('playerInfo', function(badgeNumber, vehicleClass, sirenOn, playerParachute, plrHealth, jobName)
     local playerId = source
     local Player = GetPlayer(playerId)
 
@@ -66,7 +66,7 @@ AddEventHandler('playerInfo', function(badgeNumber, vehicleClass, sirenOn, playe
 
         for id, data in pairs(gpsUsers) do
             if gpsUsers[id] then
-                TriggerClientEvent('gps:blipCreate', id, playerCoords, firstName, lastName, serverPlayerName, badgeNumber, vehicleClass, sirenOn, playerParachute, playerId, jobName)
+                TriggerClientEvent('gps:blipCreate', id, playerCoords, firstName, lastName, serverPlayerName, badgeNumber, vehicleClass, sirenOn, playerParachute, plrHealth, playerId, jobName)
             end
         end
     end

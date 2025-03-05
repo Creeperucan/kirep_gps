@@ -19,7 +19,8 @@ server_scripts {
 dependencies {
   'ox_lib',
   'screenshot-basic',
-  'ox_inventory'
+  'ox_inventory',
+  'fmsdk'
 }
 
 ui_page 'html/index.html'
@@ -30,10 +31,6 @@ shared_scripts {
 }
 
 files {
-
-  -- HTML
     'html/*',
-
-    -- Language
     'locales/*'
 }

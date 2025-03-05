@@ -48,6 +48,12 @@ blipConfig = {
         parachuteBlipColor = 29,   -- Parachute Blip Color
         parachuteBlipScale = 0.8,  -- Parachute Blip Scale
         parachuteBlipIcon = 94,    -- Parachute Blip Scale
+
+        -- Parachute Blip Settings
+        deathBlip = true,      -- If you do not want the blip to appear on the map, set the value to "false".
+        deathBlipColor = 1,   -- Parachute Blip Color
+        deathBlipScale = 0.8,  -- Parachute Blip Scale
+        deathBlipIcon = 303,    -- Parachute Blip Scale
     
         -- Default Settings
         defaultBlipScale = 0.4,    -- Default Blip Scale
@@ -98,6 +104,12 @@ blipConfig = {
         parachuteBlipColor = 1,    -- Parachute Blip Color
         parachuteBlipScale = 0.8,  -- Parachute Blip Scale
         parachuteBlipIcon = 94,    -- Parachute Blip Scale
+
+        -- Parachute Blip Settings
+        deathBlip = true,      -- If you do not want the blip to appear on the map, set the value to "false".
+        deathBlipColor = 1,   -- Parachute Blip Color
+        deathBlipScale = 0.8,  -- Parachute Blip Scale
+        deathBlipIcon = 303,    -- Parachute Blip Scale
     
         -- Default Settings
         defaultBlipScale = 0.4,    -- Default Blip Scale

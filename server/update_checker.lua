@@ -1,4 +1,4 @@
-local versionURL = 'https://raw.githubusercontent.com/Creeperucan/kirep_gps/kirep_gps/fxmanifest.lua' -- GitHub'daki fxmanifest.lua dosyanızın URL'si
+local versionURL = 'https://raw.githubusercontent.com/Creeperucan/kirep_gps/refs/heads/main/fxmanifest.lua' -- GitHub'daki fxmanifest.lua dosyanızın URL'si
 local currentVersion = '1.0.1'
 
 PerformHttpRequest(versionURL, function(errorCode, resultData, resultHeaders)
@@ -13,7 +13,7 @@ PerformHttpRequest(versionURL, function(errorCode, resultData, resultHeaders)
         
         if latestVersion then
             if latestVersion ~= currentVersion then
-                print('^3An update is available for kirep_gps (current version: ' .. latestVersion .. ')^0')
+                print('^3An update is available for kirep_gps (current version: ' .. currentVersion .. ')^0')
                 print('^3https://github.com/Creeperucan/kirep_gps^0')
             else
                 print('^2The script is up to date!^0')

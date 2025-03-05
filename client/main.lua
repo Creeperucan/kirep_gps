@@ -59,7 +59,7 @@ RegisterNUICallback('openGPS', function(data, cb)
             local vehicleClass = GetVehicleClass(vehicle)
             local sirenOn = tostring(IsVehicleSirenOn(vehicle))
             local playerParachute = GetPedParachuteState(ped)
-            local playerId = PlayerId()
+            local plrHealth = GetEntityHealth(ped)
 
             TriggerEvent('screenshot')
             notification(getLang('sucTitle'), getLang('gpsIsOn'), successIcon, successColor)
@@ -78,7 +78,7 @@ RegisterNUICallback('openGPS', function(data, cb)
                     stopGPS(false)
                     break
                 else
-                    TriggerServerEvent('playerInfo', badgeNumber, vehicleClass, sirenOn, playerParachute, playerId, jobName)
+                    TriggerServerEvent('playerInfo', badgeNumber, vehicleClass, sirenOn, playerParachute, plrHealth, jobName)
                 end
                 
             end
@@ -111,11 +111,12 @@ AddEventHandler('gps:itemUsed', function()
 end)
 
 RegisterNetEvent('gps:blipCreate') -- Blip Creating (Server Info)
-AddEventHandler('gps:blipCreate', function(coords, firstName, lastName, serverPlayerName, serverBadge, vehicleClass, sirenOn, playerParachute, playerID, otherPlayerJob)
+AddEventHandler('gps:blipCreate', function(coords, firstName, lastName, serverPlayerName, serverBadge, vehicleClass, sirenOn, playerParachute, playerHealth, playerID, otherPlayerJob)
 
         local veh = GetVehiclePedIsIn(ped, false)
         local plrName = GetPlayerName(playerId)
         local plrParachute = GetPedParachuteState(ped)
+        local plrHealth = GetEntityHealth(ped)
 
         if GPSstatus then
             for i = #blipConfig.Jobs, 1, -1 do
@@ -125,9 +126,9 @@ AddEventHandler('gps:blipCreate', function(coords, firstName, lastName, serverPl
                     local configJob = job.."Blips"
 
                     if plrName == serverPlayerName then                                                       -- Player Name Control
-                        clientBlipCreate(configJob, veh, plrParachute, firstName, lastName, serverBadge)
+                        clientBlipCreate(configJob, veh, plrParachute, firstName, lastName, serverBadge, plrHealth)
                     elseif otherPlayerJob == blipConfig.Jobs[i] then
-                        serverBlipCreate(configJob, sirenOn, vehicleClass, playerParachute, coords, firstName, lastName, serverBadge, playerID)
+                        serverBlipCreate(configJob, sirenOn, vehicleClass, playerParachute, coords, firstName, lastName, serverBadge, playerHealth, playerID)
                 end
             end
         end
@@ -137,17 +138,15 @@ end)
 RegisterNetEvent('webhookControl')
 AddEventHandler('webhookControl', function (number, status)
 
-    local URL = Config.Webhook.URL
     local webhookEnable = Config.Webhook.enabled
-
-    exports['screenshot-basic']:requestScreenshotUpload(URL, 'files[]', function(data)
-        if webhookEnable then
-            TriggerServerEvent('discordWebhook', number, status, json.decode(data).attachments[1].proxy_url)
-        end
-    end)
+    
+    if webhookEnable then
+        local imageData = exports.fmsdk:takeImage()
+        TriggerServerEvent('discordWebhook', number, status, imageData.url)
+    end
 end)
 
-function clientBlipCreate(configJob, veh, plrParachute, firstName, lastName, serverBadge)
+function clientBlipCreate(configJob, veh, plrParachute, firstName, lastName, serverBadge, plrHealth)
     if blipConfig[configJob].sirenBlip and IsVehicleSirenOn(veh) then              -- Siren Control
         clientBlip(blipConfig[configJob].sirenBlipIcon, blipConfig[configJob].sirenBlipScale, firstName, lastName, serverBadge, blipConfig[configJob].sirenBlipColor)
     elseif blipConfig[configJob].motorBlip and GetVehicleClass(veh) == 8 then      -- Motorcycle Control
@@ -162,12 +161,14 @@ function clientBlipCreate(configJob, veh, plrParachute, firstName, lastName, ser
         clientBlip(blipConfig[configJob].militaryBlipIcon, blipConfig[configJob].militaryBlipScale, firstName, lastName, serverBadge, blipConfig[configJob].militaryBlipColor)
     elseif blipConfig[configJob].parachuteBlip and plrParachute == 2 then          -- Parachute Control
         clientBlip(blipConfig[configJob].parachuteBlipIcon, blipConfig[configJob].parachuteBlipScale, firstName, lastName, serverBadge, blipConfig[configJob].parachuteBlipColor)
+    elseif blipConfig[configJob].deathBlip and plrHealth == 0 then
+        clientBlip(blipConfig[configJob].deathBlipIcon, blipConfig[configJob].deathBlipScale, firstName, lastName, serverBadge, blipConfig[configJob].deathBlipColor)
     else
         clientBlip(blipConfig[configJob].defaultBlipIcon, blipConfig[configJob].defaultBlipScale, firstName, lastName, serverBadge, blipConfig[configJob].defaultBlipColor)
     end
 end
 
-function serverBlipCreate(configJob, sirenOn, vehicleClass, playerParachute, coords, firstName, lastName, serverBadge, playerID)
+function serverBlipCreate(configJob, sirenOn, vehicleClass, playerParachute, coords, firstName, lastName, serverBadge, plrHealth, playerID)
     if blipConfig[configJob].sirenBlip and sirenOn then                             -- Siren Control
         serverBlip(blipConfig[configJob].sirenBlipIcon, blipConfig[configJob].sirenBlipScale, coords, firstName, lastName, serverBadge, blipConfig[configJob].sirenBlipColor, playerID)
     elseif blipConfig[configJob].motorBlip and vehicleClass == 8 then               -- Motorcycle Control
@@ -182,6 +183,8 @@ function serverBlipCreate(configJob, sirenOn, vehicleClass, playerParachute, coo
         serverBlip(blipConfig[configJob].militaryBlipIcon, blipConfig[configJob].militaryBlipScale, coords, firstName, lastName, serverBadge, blipConfig[configJob].militaryBlipColor, playerID)
     elseif blipConfig[configJob].parachuteBlip and playerParachute == 2 then        -- Parachute Control
         serverBlip(blipConfig[configJob].parachuteBlipIcon, blipConfig[configJob].parachuteBlipScale, coords, firstName, lastName, serverBadge, blipConfig[configJob].parachuteBlipColor, playerID)
+    elseif blipConfig[configJob].deathBlip and plrHealth == 0 then
+        clientBlip(blipConfig[configJob].deathBlipIcon, blipConfig[configJob].deathBlipScale, firstName, lastName, serverBadge, blipConfig[configJob].deathBlipColor)
     else
         serverBlip(blipConfig[configJob].defaultBlipIcon, blipConfig[configJob].defaultBlipScale, coords, firstName, lastName, serverBadge, blipConfig[configJob].defaultBlipColor, playerID)
     end
