@@ -1,5 +1,5 @@
 local versionURL = 'https://raw.githubusercontent.com/Creeperucan/kirep_gps/refs/heads/main/fxmanifest.lua' -- GitHub'daki fxmanifest.lua dosyanızın URL'si
-local currentVersion = '1.0.1'
+local currentVersion = '1.0.2'
 
 PerformHttpRequest(versionURL, function(errorCode, resultData, resultHeaders)
     if errorCode == 200 then

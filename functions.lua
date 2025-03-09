@@ -58,19 +58,13 @@ function HasItem(itemName)
     end
 
     if ESX then
-        local playerData = ESX.GetPlayerData()
-        local inventory = playerData.inventory
-        
-        for _, item in pairs(inventory) do
-            if item.name == itemName then
-                return item.count > 0
-            end
-        end
-
-    elseif QBCore then
-        if Config.General.inventory == 'ox' then
+        if GetResourceState("ox_inventory") == "started" then
             return exports.ox_inventory:Search('count', itemName) > 0
-        elseif Config.General.inventory == 'qb' then
+        end
+    elseif QBCore then
+        if GetResourceState("ox_inventory") == "started" then
+            return exports.ox_inventory:Search('count', itemName) > 0
+        elseif GetResourceState("qb-inventory") == "started" then
             return QBCore.Functions.HasItem(itemName)
         end
     end

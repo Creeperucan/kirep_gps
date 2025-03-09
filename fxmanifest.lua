@@ -5,7 +5,7 @@ lua54 'on'
 name 'kirep-gps'
 author 'Creeperucan'
 description 'The most advanced GPS script! By Creeperucan :)'
-version '1.0.1'
+version '1.0.2'
 
 client_scripts {
   'client/*',
@@ -19,6 +19,7 @@ server_scripts {
 dependencies {
   'ox_lib',
   'screenshot-basic',
+  'ox_inventory',
   'fmsdk'
 }
 

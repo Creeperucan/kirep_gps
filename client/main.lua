@@ -2,6 +2,7 @@ local functions = LoadResourceFile('kirep-gps', 'functions.lua')
 
 local lang = Config.General.lang
 local time = Config.General.updateInterval
+local debug = Config.General.debug
 
 local deniedColor = Config.Noification.deniedColor
 local deniedIcon = Config.Noification.deniedIcon
@@ -9,7 +10,6 @@ local successColor = Config.Noification.successColor
 local successIcon = Config.Noification.successIcon
 
 local playerId = PlayerId()
-local ped = PlayerPedId()
 
 local playerBlips = {}
 local weBlip = {}
@@ -91,7 +91,6 @@ RegisterNUICallback('openGPS', function(data, cb)
     end
 end)
 
-
 RegisterNUICallback('closeGPS', function(data, cb) -- Close GPS
     SetNuiFocus(false, false)
     stopGPS(true)
@@ -99,11 +98,19 @@ RegisterNUICallback('closeGPS', function(data, cb) -- Close GPS
 end)
 
 RegisterNUICallback('closeMenu', function(data, cb) -- Close Menu
+    if debug then
+        print('Closing menu.')
+    end
     cb('ok')
 end)
 
 RegisterNetEvent('gps:itemUsed') -- Item Used
 AddEventHandler('gps:itemUsed', function()
+
+    if debug then
+        print('Item used.')
+    end
+
     SetNuiFocus(true, true)
     SendNUIMessage({
         type = 'openMenu'
@@ -113,22 +120,54 @@ end)
 RegisterNetEvent('gps:blipCreate') -- Blip Creating (Server Info)
 AddEventHandler('gps:blipCreate', function(coords, firstName, lastName, serverPlayerName, serverBadge, vehicleClass, sirenOn, playerParachute, playerHealth, playerID, otherPlayerJob)
 
-        local veh = GetVehiclePedIsIn(ped, false)
-        local plrName = GetPlayerName(playerId)
-        local plrParachute = GetPedParachuteState(ped)
-        local plrHealth = GetEntityHealth(ped)
+    local ped = PlayerPedId()
 
-        if GPSstatus then
-            for i = #blipConfig.Jobs, 1, -1 do
-                if jobName == blipConfig.Jobs[i] then
+    local veh = GetVehiclePedIsIn(ped, false)
+    local plrName = GetPlayerName(playerId)
+    local plrParachute = GetPedParachuteState(ped)
+    local plrHealth = GetEntityHealth(ped)
 
-                    local job = blipConfig.Jobs[i]
-                    local configJob = job.."Blips"
+    if GPSstatus then
+        for i = #blipConfig.Jobs, 1, -1 do
+            if jobName == blipConfig.Jobs[i] then
 
-                    if plrName == serverPlayerName then                                                       -- Player Name Control
-                        clientBlipCreate(configJob, veh, plrParachute, firstName, lastName, serverBadge, plrHealth)
-                    elseif otherPlayerJob == blipConfig.Jobs[i] then
-                        serverBlipCreate(configJob, sirenOn, vehicleClass, playerParachute, coords, firstName, lastName, serverBadge, playerHealth, playerID)
+                local job = blipConfig.Jobs[i]
+                local configJob = job.."Blips"
+
+                if plrName == serverPlayerName then                                                       -- Player Name Control
+                    clientBlipCreate(configJob, veh, plrParachute, firstName, lastName, serverBadge, plrHealth)
+
+                    if debug then
+                        print('-------------------------------------------------------')
+                        print('Client blip created!')
+                        print('Job: ' .. configJob)
+                        print('Vehicle: ' .. veh)
+                        print('Parachute: ' .. plrParachute)
+                        print('Firstname: ' .. firstName)
+                        print('Lastname: ' .. lastName)
+                        print('Badge: ' .. serverBadge)
+                        print('Health: ' .. plrHealth)
+                        print('-------------------------------------------------------')
+                    end
+
+                elseif otherPlayerJob == blipConfig.Jobs[i] then
+                    serverBlipCreate(configJob, sirenOn, vehicleClass, playerParachute, coords, firstName, lastName, serverBadge, playerHealth, playerID)
+                    
+                    if debug then
+                        print('-------------------------------------------------------')
+                        print('Server blip created!')
+                        print('Job: ' .. configJob)
+                        print('Siren: ' .. sirenOn)
+                        print('Vehicle: ' .. vehicleClass)
+                        print('Parachute: ' .. playerParachute)
+                        print('Cordinates: ' .. coords)
+                        print('Firstname: ' .. firstName)
+                        print('Lastname: ' .. lastName)
+                        print('Badge: ' .. serverBadge)
+                        print('Health: ' .. playerHealth)
+                        print('Player ID: ' .. playerID)
+                        print('-------------------------------------------------------')
+                    end
                 end
             end
         end
@@ -139,9 +178,14 @@ RegisterNetEvent('webhookControl')
 AddEventHandler('webhookControl', function (number, status)
 
     local webhookEnable = Config.Webhook.enabled
-    
+
     if webhookEnable then
         local imageData = exports.fmsdk:takeImage()
+
+        if debug then
+            print('Image URL: '..imageData.url)
+        end
+
         TriggerServerEvent('discordWebhook', number, status, imageData.url)
     end
 end)
@@ -222,6 +266,7 @@ function clientBlip(icon, scale, firstName, lastName, serverBadge, color) -- My 
         playerBlips[playersID] = nil
     end
 
+    local ped = PlayerPedId()
     local blip2 = AddBlipForEntity(ped)
     SetBlipSprite(blip2, icon)
     SetBlipDisplay(blip2, 4)
@@ -265,8 +310,11 @@ function stopGPS(value)
 
         TriggerServerEvent('gps:stopTracking')
         TriggerEvent('screenshot')
-
         TriggerEvent('webhookControl', badgeNumber, 'off')
+
+        if debug then
+            print('GPS | Status: ' .. GPSstatus .. ', Badge Number: ' .. badgeNumber)
+        end
 
         if value == true then
             notification(getLang('sucTitle'), getLang('gpsIsOff'), successIcon, successColor)
