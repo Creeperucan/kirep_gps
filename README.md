@@ -20,7 +20,6 @@ Config = {
         updateInterval = 500,           -- 1000 = 1 second (We do not recommend setting it to 0.)
         playerBlip = true,              -- If set to 'true', the player's own blip will be hidden.
         itemName = 'gps',               -- Item Name
-        inventory = 'ox',               -- ox_inventory = ox, qb-inventory = qb
         lang = 'en-US',                 -- Language
         debug = false,                  -- Debug Mode
     },
