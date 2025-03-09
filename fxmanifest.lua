@@ -19,7 +19,6 @@ server_scripts {
 dependencies {
   'ox_lib',
   'screenshot-basic',
-  'ox_inventory',
   'fmsdk'
 }
 
