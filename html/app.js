@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         });
 
-        fetch(`https://kirep-gps/closeMenu`, {
+        fetch(`https://kirep_gps/closeMenu`, {
             method: 'POST'
         });
     });
