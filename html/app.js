@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const inputValue = inputBox.value;
         container.style.display = 'none';
 
-        fetch(`https://kirep-gps/openGPS`, {
+        fetch(`https://kirep_gps/openGPS`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     button2.addEventListener('click', () => {
         container.style.display = 'none';
 
-        fetch(`https://kirep-gps/closeGPS`, {
+        fetch(`https://kirep_gps/closeGPS`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         });
 
-        fetch(`https://kirep-gps/closeMenu`, {
+        fetch(`https://kirep_gps/closeMenu`, {
             method: 'POST'
         });
     });
